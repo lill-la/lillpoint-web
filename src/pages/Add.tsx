@@ -100,7 +100,7 @@ function Add() {
 
         setMessage('finished!');
       } catch (e: any) {
-        setMessage(e.toString());
+        setMessage(e.toString() + e.message);
       }
     }
   }
