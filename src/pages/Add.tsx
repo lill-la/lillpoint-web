@@ -99,7 +99,7 @@ function Add() {
         })
 
         setMessage('finished!');
-      } catch (e) {
+      } catch (e: any) {
         setMessage(e.toString());
       }
     }
