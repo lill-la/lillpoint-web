@@ -77,7 +77,7 @@ function Read() {
           {point} pt.
         </div>
         {valid ? <div/> : <div>検証失敗</div>}
-        <div className='text-2xl mt-4'>
+        <div className='text-2xl mt-10'>
           {rank}会員
         </div>
         <div className='text-sm'>
