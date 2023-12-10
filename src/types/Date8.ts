@@ -3,7 +3,7 @@ export default class Date8 {
 
 	constructor(first: string | Date) {
 		if (typeof first === 'string') {
-			const regex = /^\\d{8}$/;
+			const regex = /^[0-9]{8}$/;
 			if (!regex.test(first)) throw SyntaxError();
 			const date = new Date();
 			date.setFullYear(parseInt(first.substring(0, 4)));

@@ -5,17 +5,7 @@ import {First} from "./First";
 import {Last} from "./Last";
 import Date8 from "./Date8";
 import {Sign} from "./Sign";
-
-function buf2hex(buf: ArrayBuffer) {
-  const array = [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2, '0'));
-  return array.reverse().join('');
-}
-
-function hex2buf(hex: string) {
-  hex = hex.padStart(4, '0'); // length to 4
-  const array = [0, 1].map(i => parseInt(hex.substring(i * 2, (i + 1) * 2), 16));
-  return new Uint8Array(array.reverse()).buffer;
-}
+import {buf2hex, hex2buf} from "@taquito/utils";
 
 export default class CardInfo {
   id: Id;
@@ -60,19 +50,20 @@ export default class CardInfo {
 
     const sign = await window.crypto.subtle.sign({name: 'ECDSA', hash: 'SHA-256'}, privateKey, strArray);
 
-    return new CardInfo(_id, _name, _point, _first, _last, buf2hex(sign));
+    return new CardInfo(_id, _name, _point, _first, _last, buf2hex(new Uint8Array(sign)));
   }
 
   async updateSign(privateKey: CryptoKey) {
     const str = this.id.toString() + this.name.toString() + this.point.toString() + this.first.toString() + this.last.toString();
     const strArray = new TextEncoder().encode(str);
     const sign = await window.crypto.subtle.sign({name: 'ECDSA', hash: 'SHA-256'}, privateKey, strArray);
-    this.sign = buf2hex(sign);
+    this.sign = buf2hex(new Uint8Array(sign));
   }
 
   async verify(publicKey: CryptoKey): Promise<boolean> {
     const str = this.id.toString() + this.name.toString() + this.point.toString() + this.first.toString() + this.last.toString();
-    return await window.crypto.subtle.verify({name: 'ECDSA', hash: 'SHA-256'}, publicKey, hex2buf(this.sign), hex2buf(str));
+    const strArray = new TextEncoder().encode(str);
+    return await window.crypto.subtle.verify({name: 'ECDSA', hash: 'SHA-256'}, publicKey, hex2buf(this.sign), strArray);
   }
 
   toParams(): URLSearchParams {

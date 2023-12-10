@@ -6,7 +6,7 @@ export default class Id {
 			if (!Number.isInteger(id) || id < 0 || 999999 < id) throw TypeError();
 			this.value = id;
 		} else {
-			const regexp = /^\\d{6}$/;
+			const regexp = /^[0-9]{6}$/;
 			if (!regexp.test(id)) throw SyntaxError('Invalid Id input string');
 			this.value = parseInt(id);
 		}

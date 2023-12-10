@@ -6,7 +6,7 @@ export default class Point {
 			if (!Number.isInteger(id) || id < 0 || 9999999999 < id) throw TypeError();
 			this.value = id;
 		} else {
-			const regexp = /^\\d{10}$/;
+			const regexp = /^[0-9]{10}$/;
 			if (!regexp.test(id)) throw SyntaxError('Invalid Id input string');
 			this.value = parseInt(id);
 		}
