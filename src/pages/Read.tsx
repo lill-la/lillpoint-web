@@ -43,30 +43,26 @@ function Read() {
       setId(cardInfo.id.toString());
       setName(cardInfo.name.toString());
       setPoint(cardInfo.point.toNumber());
-      setValid(true);
+      setValid(isValid);
     })()
   }, []);
 
   return (
     <div>
-      {!valid ? (
+      <div>
         <div>
-          NO
+          {id}
         </div>
-      ) : (
         <div>
-          <div>
-            {id}
-          </div>
-          <div>
-            {name}
-          </div>
-          <div>
-            {point}
-          </div>
+          {name}
         </div>
-      )
-      }
+        <div>
+          {point}
+        </div>
+        <div>
+          {valid}
+        </div>
+      </div>
     </div>
   )
 }
