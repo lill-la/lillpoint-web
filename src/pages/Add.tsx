@@ -37,68 +37,71 @@ function Add() {
     await ndef.scan();
 
     ndef.onreading = async (e) => {
-      setMessage(e.message.records.length.toString());
-      const record = e.message.records[0];
-      if (record.recordType !== 'url') {
-        setMessage('recordType is not url');
-        return;
+      try {
+        const record = e.message.records[0];
+        if (record.recordType !== 'url') {
+          setMessage('recordType is not url');
+          return;
+        }
+        const decoder = new TextDecoder();
+        const data = decoder.decode(record.data);
+        if (!data.startsWith('https://pt.lill.la/v1/r?')) {
+          setMessage('record url not start with https://pt.lill.la/v1/r?')
+          return;
+        }
+        const paramStr = data.replace('https://pt.lill.la/v1/r?', '');
+        const params = new URLSearchParams(paramStr);
+        const id = params.get('id');
+        const name = params.get('name');
+        const point = params.get('point');
+        const first = params.get('first');
+        const last = params.get('last');
+        const sign = params.get('sign');
+        if (id == null || name == null || point == null || first == null || last == null || sign == null) {
+          setMessage('params contains null');
+          return;
+        }
+        const publicKeyJwk = {
+          "crv": "P-256",
+          "ext": true,
+          "key_ops": ["verify"],
+          "kty": "EC",
+          "x": "yC0nMFLBCUaXnN3aixEQKLMv1eZBbp7WP10B9mumIwc",
+          "y": "-jV6B_Ogb8VAAuRLHVTUi18xhv-12F_fdaCnC0bzNbM"
+        };
+        const publicKey = await window.crypto.subtle.importKey('jwk', publicKeyJwk, {
+          name: 'ECDSA',
+          namedCurve: 'P-256'
+        }, false, ['verify']);
+
+        const cardInfo = new CardInfo(id, decodeURI(name), point, first, last, sign);
+        const isValid = await cardInfo.verify(publicKey);
+
+        if (!isValid) {
+          setMessage('invalid');
+          return;
+        }
+
+        const newPoint = cardInfo.point.toNumber() + addPoint
+        const newLast = new Date8(new Date());
+
+        const newCardInfo = await CardInfo.build(id, name, newPoint, first, newLast, privateKey);
+
+        setMessage('writing...')
+
+        await ndef.write({
+          records: [
+            {
+              recordType: 'url',
+              data: 'https://pt.lill.la/v1/r?' + newCardInfo.toParams().toString()
+            }
+          ]
+        })
+
+        setMessage('finished!');
+      } catch (e) {
+        setMessage(e.toString());
       }
-      const decoder = new TextDecoder();
-      const data = decoder.decode(record.data);
-      if (!data.startsWith('https://pt.lill.la/v1/r?')) {
-        setMessage('record url not start with https://pt.lill.la/v1/r?')
-        return;
-      }
-      const paramStr = data.replace('https://pt.lill.la/v1/r?', '');
-      const params = new URLSearchParams(paramStr);
-      const id = params.get('id');
-      const name = params.get('name');
-      const point = params.get('point');
-      const first = params.get('first');
-      const last = params.get('last');
-      const sign = params.get('sign');
-      if (id == null || name == null || point == null || first == null || last == null || sign == null) {
-        setMessage('params contains null');
-        return;
-      }
-      const publicKeyJwk = {
-        "crv": "P-256",
-        "ext": true,
-        "key_ops": ["verify"],
-        "kty": "EC",
-        "x": "yC0nMFLBCUaXnN3aixEQKLMv1eZBbp7WP10B9mumIwc",
-        "y": "-jV6B_Ogb8VAAuRLHVTUi18xhv-12F_fdaCnC0bzNbM"
-      };
-      const publicKey = await window.crypto.subtle.importKey('jwk', publicKeyJwk, {
-        name: 'ECDSA',
-        namedCurve: 'P-256'
-      }, false, ['verify']);
-
-      const cardInfo = new CardInfo(id, decodeURI(name), point, first, last, sign);
-      const isValid = await cardInfo.verify(publicKey);
-
-      if (!isValid) {
-        setMessage('invalid');
-        return;
-      }
-
-      const newPoint = cardInfo.point.toNumber() + addPoint
-      const newLast = new Date8(new Date());
-
-      const newCardInfo = await CardInfo.build(id, name, newPoint, first, newLast, privateKey);
-
-      setMessage('writing...')
-
-      await ndef.write({
-        records: [
-          {
-            recordType: 'url',
-            data: 'https://pt.lill.la/v1/r?' + newCardInfo.toParams().toString()
-          }
-        ]
-      })
-
-      setMessage('finished!');
     }
   }
 
