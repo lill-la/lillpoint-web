@@ -62,6 +62,9 @@ function Read() {
         <div>
           {valid ? 'true' : 'false'}
         </div>
+        <div>
+          {window.crypto.subtle == null ? 'true' : 'false'}
+        </div>
       </div>
     </div>
   )
