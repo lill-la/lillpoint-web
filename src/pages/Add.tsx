@@ -82,7 +82,7 @@ function Add() {
           return;
         }
 
-        const newPoint = cardInfo.point.toNumber() + addPoint
+        //const newPoint = cardInfo.point.toNumber() + addPoint;
         const newLast = new Date8(new Date());
 
         const newCardInfo = await CardInfo.build(cardInfo.id, cardInfo.name, 500, cardInfo.first, newLast, privateKey);
