@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import CardInfo from "../types/CardInfo";
 import Date8 from "../types/Date8";
-import {URLSearchParams} from "node:url";
 
 function Add() {
   const [message, setMessage] = useState('');
@@ -39,7 +38,7 @@ function Add() {
       (async () => {
         setMessage('reading...');
         const record = e.message.records[0];
-        if (!record.recordType == 'url') return;
+        if (record.recordType !== 'url') return;
         const decoder = new TextDecoder();
         const data = decoder.decode(record.data);
         if (!data.startsWith('https://pt.lill.la/v1/r?')) return;
@@ -73,7 +72,7 @@ function Add() {
         if (!isValid) return;
 
         const newPoint = cardInfo.point.toNumber() + addPoint
-        const newLast = new Date();
+        const newLast = new Date8(new Date());
 
         const newCardInfo = await CardInfo.build(id, name, newPoint, first, newLast, privateKey);
 
