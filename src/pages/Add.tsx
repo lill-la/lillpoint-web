@@ -37,7 +37,7 @@ function Add() {
     await ndef.scan();
 
     ndef.onreading = async (e) => {
-      setMessage(e.message.records.length);
+      setMessage(e.message.records.length.toString());
       const record = e.message.records[0];
       if (record.recordType !== 'url') {
         setMessage('recordType is not url');
