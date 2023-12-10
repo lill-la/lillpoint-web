@@ -86,9 +86,9 @@ function Add() {
             }
           ]
         })
-      })();
 
-      setMessage('finished!')
+        setMessage('finished!')
+      })();
     }
   }
 
