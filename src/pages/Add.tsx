@@ -35,7 +35,7 @@ function Add() {
 
     await ndef.scan();
 
-    ndef.onreading() = (e) => {
+    ndef.onreading = (e) => {
       (async () => {
         setMessage('reading...');
         const record = e.message.records[0];
