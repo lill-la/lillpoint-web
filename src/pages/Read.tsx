@@ -37,7 +37,7 @@ function Read() {
         namedCurve: 'P-256'
       }, false, ['verify']);
 
-      const cardInfo = new CardInfo(id, name, point, first, last, sign);
+      const cardInfo = new CardInfo(id, decodeURI(name), point, first, last, sign);
       const isValid = await cardInfo.verify(publicKey);
 
       setId(cardInfo.id.toString());
@@ -61,9 +61,6 @@ function Read() {
         </div>
         <div>
           {valid ? 'true' : 'false'}
-        </div>
-        <div>
-          {window.crypto.subtle == null ? 'true' : 'false'}
         </div>
       </div>
     </div>
