@@ -85,7 +85,9 @@ function Add() {
         const newPoint = cardInfo.point.toNumber() + addPoint
         const newLast = new Date8(new Date());
 
-        const newCardInfo = await CardInfo.build(cardInfo.id, cardInfo.name, newPoint, cardInfo.first, newLast, privateKey);
+        const newCardInfo = await CardInfo.build(cardInfo.id, cardInfo.name, 500, cardInfo.first, newLast, privateKey);
+
+        const ndef = new NDEFReader();
 
         setMessage('writing...')
 
