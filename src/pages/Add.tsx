@@ -39,10 +39,16 @@ function Add() {
     ndef.onreading = (e) => {
       (async () => {
         const record = e.message.records[0];
-        if (record.recordType !== 'url') return;
+        if (record.recordType !== 'url') {
+          setMessage('recordType is not url');
+          return;
+        }
         const decoder = new TextDecoder();
         const data = decoder.decode(record.data);
-        if (!data.startsWith('https://pt.lill.la/v1/r?')) return;
+        if (!data.startsWith('https://pt.lill.la/v1/r?')) {
+          setMessage('record url not start with https://pt.lill.la/v1/r?')
+          return;
+        }
         const paramStr = data.replace('https://pt.lill.la/v1/r?', '');
         const params = new URLSearchParams(paramStr);
         const id = params.get('id');
@@ -52,6 +58,7 @@ function Add() {
         const last = params.get('last');
         const sign = params.get('sign');
         if (id == null || name == null || point == null || first == null || last == null || sign == null) {
+          setMessage('params contains null');
           return;
         }
         const publicKeyJwk = {
@@ -70,7 +77,10 @@ function Add() {
         const cardInfo = new CardInfo(id, decodeURI(name), point, first, last, sign);
         const isValid = await cardInfo.verify(publicKey);
 
-        if (!isValid) return;
+        if (!isValid) {
+          setMessage('invalid');
+          return;
+        }
 
         const newPoint = cardInfo.point.toNumber() + addPoint
         const newLast = new Date8(new Date());
