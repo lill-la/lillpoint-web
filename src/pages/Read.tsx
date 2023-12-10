@@ -7,6 +7,10 @@ function Read() {
   const [point, setPoint] = useState(0);
   const [valid, setValid] = useState(false);
 
+  const [rank, setRank] = useState('');
+  const [nextRank, setNextRank] = useState('');
+  const [nextPoint, setNextPoint] = useState(0);
+
   useEffect(() => {
     (async () => {
       const searchParams = new URLSearchParams(window.location.search);
@@ -40,6 +44,25 @@ function Read() {
       const cardInfo = new CardInfo(id, decodeURI(name), point, first, last, sign);
       const isValid = await cardInfo.verify(publicKey);
 
+      const p = cardInfo.point.toNumber();
+      if (p < 1000) {
+        setRank('ブロンズ');
+        setNextPoint(1000 - p);
+        setNextRank('シルバー');
+      } else if (p < 5000) {
+        setRank('シルバー');
+        setNextPoint(5000 - p);
+        setNextRank('ゴールド');
+      } else if (p < 10000) {
+        setRank('ゴールド');
+        setNextPoint(10000 - p);
+        setNextRank('プラチナ');
+      } else {
+        setRank('プラチナ');
+        setNextPoint(100000 - p);
+        setNextRank('ダイヤモンド');
+      }
+
       setId(cardInfo.id.toString());
       setName(cardInfo.name.toString());
       setPoint(cardInfo.point.toNumber());
@@ -48,19 +71,23 @@ function Read() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <div>
-          {id}
+    <div className='flex flex-col items-center justify-center'>
+      <div className='text-center'>
+        <div className='text-xl'>
+          No. {id}
         </div>
-        <div>
+        <div className='text-3xl mt-1'>
           {name}
         </div>
-        <div>
-          {point}
+        <div className='text-6xl mt-2'>
+          {point} pt.
         </div>
-        <div>
-          {valid ? 'true' : 'false'}
+        { valid ? <div /> : <div>検証失敗</div> }
+        <div className='text-2xl mt-4'>
+          { rank }会員
+        </div>
+        <div className='text-sm'>
+          あと{ nextPoint }ptで{ nextRank }会員です
         </div>
       </div>
     </div>
