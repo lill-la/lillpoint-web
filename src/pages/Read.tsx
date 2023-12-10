@@ -73,21 +73,21 @@ function Read() {
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='text-center'>
-        <div className='text-xl'>
-          No. {id}
-        </div>
-        <div className='text-3xl mt-1'>
-          {name}
-        </div>
-        <div className='text-6xl mt-2'>
+        <div className='text-6xl'>
           {point} pt.
         </div>
-        { valid ? <div /> : <div>検証失敗</div> }
+        {valid ? <div/> : <div>検証失敗</div>}
         <div className='text-2xl mt-4'>
-          { rank }会員
+          {rank}会員
         </div>
         <div className='text-sm'>
-          あと{ nextPoint }ptで{ nextRank }会員です
+          あと{nextPoint}ptで{nextRank}会員です
+        </div>
+        <div className='text-xl mt-6'>
+          No. {id}
+        </div>
+        <div className='text-2xl'>
+          {name}
         </div>
       </div>
     </div>
