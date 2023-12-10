@@ -51,6 +51,7 @@ function Read() {
     <div>
       {!valid ? (
         <div>
+          NO
         </div>
       ) : (
         <div>
