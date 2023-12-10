@@ -32,11 +32,12 @@ function Add() {
 
     const ndef = new NDEFReader();
 
+    setMessage('reading...');
+
     await ndef.scan();
 
     ndef.onreading = (e) => {
       (async () => {
-        setMessage('reading...');
         const record = e.message.records[0];
         if (record.recordType !== 'url') return;
         const decoder = new TextDecoder();
