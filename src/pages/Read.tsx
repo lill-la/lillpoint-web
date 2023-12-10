@@ -43,7 +43,7 @@ function Read() {
       setId(cardInfo.id.toString());
       setName(cardInfo.name.toString());
       setPoint(cardInfo.point.toNumber());
-      setValid(isValid);
+      setValid(true);
     })()
   }, []);
 
