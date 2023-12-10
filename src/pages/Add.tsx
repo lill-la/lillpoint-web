@@ -35,9 +35,9 @@ function Add() {
 
     setMessage('reading...');
 
-    await ndef.scan();
-
     setAdding(true);
+
+    await ndef.scan();
 
     ndef.onreading = async (e) => {
       if (!adding) return;
