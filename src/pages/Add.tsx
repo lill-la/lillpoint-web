@@ -4,6 +4,7 @@ import Date8 from "../types/Date8";
 
 function Add() {
   const [message, setMessage] = useState('');
+  const [adding, setAdding] = useState(false);
 
   const sign = async (event: React.FormEvent<HTMLFormElement>) => {
     setMessage('');
@@ -36,7 +37,10 @@ function Add() {
 
     await ndef.scan();
 
+    setAdding(true);
+
     ndef.onreading = async (e) => {
+      if (!adding) return;
       try {
         const record = e.message.records[0];
         if (record.recordType !== 'url') {
@@ -100,6 +104,7 @@ function Add() {
           ]
         })
 
+        setAdding(false);
         setMessage('finished!');
       } catch (e: any) {
         setMessage(e.toString() + e.message);
