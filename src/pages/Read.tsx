@@ -60,7 +60,7 @@ function Read() {
           {point}
         </div>
         <div>
-          {valid}
+          {valid ? 'true' : 'false'}
         </div>
       </div>
     </div>
