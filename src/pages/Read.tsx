@@ -26,8 +26,6 @@ function Read() {
         return;
       }
 
-      console.log(id);
-
       const publicKeyJwk = {
         "crv": "P-256",
         "ext": true,

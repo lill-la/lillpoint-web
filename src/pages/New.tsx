@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import CardInfo from "../types/CardInfo";
 import Date8 from "../types/Date8";
 
-function Sign() {
+function New() {
   const [message, setMessage] = useState('');
 
   const sign = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -66,7 +66,7 @@ function Sign() {
     <div className='h-max flex flex-col items-center justify-center'>
       <form onSubmit={sign} className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
         <div className='mb-6 text-gray-700 text-xl font-bold'>
-          Sign
+          New
         </div>
         <div className='mb-4'>
           <label htmlFor='id' className='block text-gray-700 text-sm font-bold mb-2'>
@@ -106,4 +106,4 @@ function Sign() {
   )
 }
 
-export default Sign;
+export default New;

@@ -2,10 +2,11 @@ import React from 'react';
 import './App.css';
 import {Route, Routes} from "react-router";
 import Home from "./pages/Home";
-import Sign from "./pages/Sign";
+import New from "./pages/New";
 import Read from "./pages/Read";
 import KeyGen from "./pages/KeyGen";
 import logo from "./logo.png";
+import Add from "./pages/Add";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       </div>
       <Routes>
         <Route path="*" element={Home()}/>
-        <Route path='/v1/sign' element={Sign()}/>
+        <Route path='/v1/new' element={New()}/>
+        <Route path='/v1/add' element={Add()}/>
         <Route path='/v1/r' element={Read()}/>
         <Route path='/v1/keygen' element={KeyGen()}/>
       </Routes>
