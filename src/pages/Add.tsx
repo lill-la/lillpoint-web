@@ -45,12 +45,12 @@ function Add() {
         if (!data.startsWith('https://pt.lill.la/v1/r?')) return;
         const paramStr = data.replace('https://pt.lill.la/v1/r?', '');
         const params = new URLSearchParams(paramStr);
-        const id = searchParams.get('id');
-        const name = searchParams.get('name');
-        const point = searchParams.get('point');
-        const first = searchParams.get('first');
-        const last = searchParams.get('last');
-        const sign = searchParams.get('sign');
+        const id = params.get('id');
+        const name = params.get('name');
+        const point = params.get('point');
+        const first = params.get('first');
+        const last = params.get('last');
+        const sign = params.get('sign');
         if (id == null || name == null || point == null || first == null || last == null || sign == null) {
           return;
         }
