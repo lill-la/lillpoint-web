@@ -64,7 +64,7 @@ function New() {
 
     setMessage('finished!')
 
-    await sendDiscordMessage('New', window.location.href, id.toString(), name, point.toString(), first.toString(), last.toString(), sign.toString(), true);
+    await sendDiscordMessage('New', newData, id.toString(), name, point.toString(), first.toString(), last.toString(), cardInfo.sign, true);
   }
 
   return (
