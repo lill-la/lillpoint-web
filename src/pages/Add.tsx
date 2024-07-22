@@ -92,18 +92,20 @@ function Add() {
 
         setMessage('writing...')
 
+        const newData: string = 'https://pt.lill.la/v1/r?' + newCardInfo.toParams().toString();
+
         await ndef.write({
           records: [
             {
               recordType: 'url',
-              data: 'https://pt.lill.la/v1/r?' + newCardInfo.toParams().toString()
+              data: newData,
             }
           ]
         })
 
         setMessage('finished!');
 
-        await sendDiscordMessage('Add (read)', window.location.href, id, name, point, first, last, sign, isValid);
+        await sendDiscordMessage('Add (read)', data + '\n' + newData, id, name, point, first, last, sign, isValid);
       } catch (e: any) {
         setMessage(e.toString() + e.message);
       }

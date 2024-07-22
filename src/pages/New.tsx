@@ -51,11 +51,13 @@ function New() {
 
     const ndef = new NDEFReader();
 
+    const newData = 'https://pt.lill.la/v1/r?' + cardInfo.toParams().toString()
+
     await ndef.write({
       records:[
         {
           recordType: 'url',
-          data: 'https://pt.lill.la/v1/r?' + cardInfo.toParams().toString()
+          data: newData,
         }
       ]
     });
