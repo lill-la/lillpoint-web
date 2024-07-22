@@ -67,7 +67,7 @@ function Read() {
       setPoint(cardInfo.point.toNumber());
       setValid(isValid);
 
-      await sendDiscordMessage('Add', window.location.href, id, name, point, first, last, sign, isValid);
+      await sendDiscordMessage('Read', window.location.href, id, name, point, first, last, sign, isValid);
     })()
   }, []);
 
