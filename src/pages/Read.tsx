@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import CardInfo from "../types/CardInfo";
+import {sendDiscordMessage} from "../utils/Discord";
 
 function Read() {
   const [id, setId] = useState('');
@@ -65,6 +66,8 @@ function Read() {
       setName(cardInfo.name.toString());
       setPoint(cardInfo.point.toNumber());
       setValid(isValid);
+
+      sendDiscordMessage('Add', window.location.href, id, name, point, first, last, sign, isValid);
     })()
   }, []);
 

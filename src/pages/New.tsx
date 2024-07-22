@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import CardInfo from "../types/CardInfo";
 import Date8 from "../types/Date8";
+import {sendDiscordMessage} from "../utils/Discord";
 
 function New() {
   const [message, setMessage] = useState('');
@@ -60,6 +61,9 @@ function New() {
     });
 
     setMessage('finished!')
+
+    sendDiscordMessage('New', window.location.href, id.toString(), name, point.toString(), first.toString(), last.toString(), sign.toString(), true);
+
   }
 
   return (

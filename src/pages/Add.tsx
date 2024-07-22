@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import CardInfo from "../types/CardInfo";
 import Date8 from "../types/Date8";
+import {sendDiscordMessage} from "../utils/Discord";
 
 function Add() {
   const [message, setMessage] = useState('');
@@ -101,6 +102,8 @@ function Add() {
         })
 
         setMessage('finished!');
+
+        sendDiscordMessage('Add (read)', window.location.href, id, name, point, first, last, sign, isValid);
       } catch (e: any) {
         setMessage(e.toString() + e.message);
       }
