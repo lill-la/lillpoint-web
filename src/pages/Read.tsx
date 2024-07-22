@@ -44,22 +44,26 @@ function Read() {
       const isValid = await cardInfo.verify(publicKey);
 
       const p = cardInfo.point.toNumber();
-      if (p < 1000) {
+      if (p < 500) {
         setRank('ブロンズ');
-        setNextPoint(1000 - p);
+        setNextPoint(500 - p);
         setNextRank('シルバー');
-      } else if (p < 5000) {
+      } else if (p < 1500) {
         setRank('シルバー');
-        setNextPoint(5000 - p);
+        setNextPoint(1500 - p);
         setNextRank('ゴールド');
-      } else if (p < 10000) {
+      } else if (p < 3000) {
         setRank('ゴールド');
-        setNextPoint(10000 - p);
+        setNextPoint(3000 - p);
         setNextRank('プラチナ');
-      } else {
+      } else if (p < 5000) {
         setRank('プラチナ');
-        setNextPoint(100000 - p);
+        setNextPoint(5000 - p);
         setNextRank('ダイヤモンド');
+      } else {
+        setRank('ダイヤモンド');
+        setNextPoint(-1);
+        setNextRank('');
       }
 
       setId(cardInfo.id.toString());
@@ -81,9 +85,11 @@ function Read() {
         <div className='text-2xl mt-10'>
           {rank}会員
         </div>
-        <div className='text-sm'>
-          あと{nextPoint}ptで{nextRank}会員です
-        </div>
+        {nextPoint > 0 &&
+          <div className='text-sm'>
+            あと{nextPoint}ptで{nextRank}会員です
+          </div>
+        }
         <div className='text-xl mt-6'>
           No. {id}
         </div>
